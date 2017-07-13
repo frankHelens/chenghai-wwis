@@ -64,59 +64,59 @@
       </tr>
       <tr class="borders">
         <td rowspan="3">技术科：</td>
-        <td colspan="5" class="tl ti2">{{dataList.lookRemark || ''}}</td>
+        <td colspan="5" class="tl pl80 bs"></td>
       </tr>
       <tr>
-        <td></td>
+        <td colspan="6"></td>
       </tr>
       <tr>
         <td></td>
         <td class="tr">签名：</td>
         <td class="tl">{{getLookName}}</td>
-        <td colspan="1">{{dataList.lookTime || ''}}</td>
+        <td colspan="1">{{dataList.budgetTime || ''}}</td>
       </tr>
       <tr class="borders">
         <td rowspan="3">设计室：</td>
-        <td colspan="5" class="tl ti2"></td>
+        <td colspan="5" class="tl pl80 bs"></td>
       </tr>
       <tr>
-        <td></td>
+        <td colspan="6"></td>
       </tr>
       <tr>
         <td></td>
         <td class="tr">签名：</td>
         <td class="tl">{{getLookName}}</td>
-        <td colspan="3">{{dataList.lookTime || ''}}</td>
+        <td colspan="3">{{dataList.budgetTime || ''}}</td>
       </tr>
       <tr class="borders">
         <td rowspan="3">营业所：</td>
-        <td colspan="5" class="tl ti2">{{dataList.bizLookRemark || ''}}</td>
+        <td colspan="5" class="tl pl80 bs"></td>
       </tr>
       <tr>
-        <td></td>
+        <td colspan="6"></td>
       </tr>
       <tr>
         <td></td>
         <td class="tr">签名：</td>
         <td class="tl">{{dataList.bizLookUserName || dataList.bizLookUserId || ''}}</td>
-        <td colspan="3">{{dataList.bizLookTime || ''}}</td>
+        <td colspan="3">{{dataList.budgetTime || ''}}</td>
       </tr>
       <tr class="borders">
         <td rowspan="3">安装公司：</td>
-        <td colspan="5" class="tl ti2">{{dataList.instLookRemark || ''}}</td>
+        <td colspan="5" class="tl pl80 bs"></td>
       </tr>
       <tr>
-        <td></td>
+        <td colspan="6"></td>
       </tr>
       <tr>
         <td></td>
         <td class="tr">签名：</td>
         <td class="tl">{{dataList.instLookUserName || dataList.instLookUserId || ''}}</td>
-        <td colspan="3">{{dataList.instLookTime || ''}}</td>
+        <td colspan="3">{{dataList.budgetTime || ''}}</td>
       </tr>
       <tr class="borders">
         <td rowspan="2">设计预算</td>
-        <td colspan="5" class="tl ti2">{{dataList.pactText}}</td>
+        <td colspan="5" class="tl pl80 bs">附设计图及工程预算书</td>
       </tr>
       <tr>
         <td></td>
@@ -126,7 +126,7 @@
       </tr>
       <tr class="borders">
         <td rowspan="2">造价审核</td>
-        <td colspan="5" class="tl ti2">{{dataList.verifyRemark || ''}}</td>
+        <td colspan="5"></td>
       </tr>
       <tr>
         <td></td>
@@ -135,8 +135,8 @@
         <td colspan="2">{{dataList.verifyTime || ''}}</td>
       </tr>
       <tr class="borders">
-        <td rowspan="2">分管经理<br>审批意见</td>
-        <td colspan="5" class="tl ti2">{{dataList.subApprRemark || ''}}</td>
+        <td rowspan="2">分管经理审批意见</td>
+        <td colspan="5"></td>
       </tr>
       <tr>
         <td></td>
@@ -146,7 +146,7 @@
       </tr>
       <tr class="borders">
         <td rowspan="2">经理审批意见</td>
-        <td colspan="5" class="tl ti2">{{dataList.mainApprRemark || ''}}</td>
+        <td colspan="5"></td>
       </tr>
       <tr>
         <td></td>

@@ -54,7 +54,7 @@ export default {
         menuname: '',
         menulabel: '',
         menutype: '',
-        menuparentid: 0,
+        menuparentid: '',
         menuorder: '',
         flowid: 0,
         isvisible: 0,
@@ -114,8 +114,8 @@ export default {
           form: {
             type: 'select',
             live: true
-          }
-          // optionsInit: [{id: 0, label: '无上级菜单'}]
+          },
+          optionsInit: [{id: 0, label: '无上级菜单'}]
         },
         menuorder: {
           label: '排序',

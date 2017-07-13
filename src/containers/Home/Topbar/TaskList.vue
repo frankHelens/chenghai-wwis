@@ -47,6 +47,7 @@ export default {
         resource: 'flow/getUserAllTask?orderBy=&filterBy=currentStepStatus%7Cequalto%7CINITIAL&pageSize=999999&pageIndex=1'
       }).then(data => {
         this.tasks = data.data ? data.data.map(item => {
+          console.log(item.isNotify)
           return {
             id: item.id,
             currentStepName: item.currentStepName,

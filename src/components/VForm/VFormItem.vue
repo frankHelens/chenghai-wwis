@@ -183,8 +183,7 @@ export default {
         maxWidth: this.column.form.width ? this.column.form.width : '170px'
       },
       fileList: [],
-      scanerDialog: false,
-      testFather: '大师的发放'
+      scanerDialog: false
     }
   },
   watch: {

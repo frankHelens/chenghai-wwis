@@ -6,7 +6,25 @@
           <i :class="['fa', 'fa-' + toolbar.icon]"></i> {{toolbar.label}}
         </el-button>
       </div>
+      <div
+        class="toolbar filterBar clearfix"
+        v-if="filterBar.length">
+       <!--  <el-row>
+          <el-col
+            :span="8"
+            > -->
+        <div class="fl filterItem" v-for="column in filterBar">
+          <v-filter-bar
+            v-if="column.filterBar"
+            :column="column"
+            :searchQuery="filterBy.filter(item => item.name === column.name)"
+            @filterBy="filterByChange"/>
+        </div>
+    <!--       </el-col>
+        </el-row> -->
+      </div>
       <column-filter
+        v-if="!closeColumnFilter"
         class="column-filter"
         :columnsObject="columnsObject"
         :tableList="tableList"
@@ -109,6 +127,7 @@ import md5 from 'md5'
 import { pinyinInitial } from 'hanyu-pinyin'
 import VDatatable from '../VDatatable'
 import VForm from '../VForm'
+import VFormItem from '../VForm/VFormItem'
 import VTable from '../VDatatable/VTable'
 import VThead from '../VDatatable/VThead'
 import VTbody from '../VDatatable/VTbody'
@@ -117,6 +136,7 @@ import VTr from '../VDatatable/VTr'
 import VTh from '../VDatatable/VTh'
 import VTd from '../VDatatable/VTd'
 import VFilter from '../VDatatable/VFilter'
+import VFilterBar from '../VDatatable/VFilterBar'
 import ColumnFilter from './columnFilter'
 import TableFilter from './TableFilter'
 import { getLodop } from '../../utils/LodopFuncs'
@@ -139,6 +159,10 @@ export default {
       default: false
     }, /* 是否有关联数据接口 */
     relationResource: String, /* 是否关联其他数据接口 */
+    closeColumnFilter: {
+      type: Boolean,
+      default: false
+    },
     dialogSize: {
       type: String,
       default: 'small'
@@ -212,16 +236,22 @@ export default {
     orderByInit: {
       type: Array,
       default: () => []
-    } /* 排序的初始化 */
+    }, /* 排序的初始化 */
+    toolFilter: {
+      type: Object,
+      default: () => {}
+    }
   },
   components: {
     VDatatable,
     VForm,
+    VFormItem,
     VTable,
     VThead,
     VTbody,
     VTfoot,
     VFilter,
+    VFilterBar,
     VTr,
     VTh,
     VTd,
@@ -263,7 +293,8 @@ export default {
       recordsTotal: 0,
       isExport: false,
       getUserName: getRealname(),
-      nowDate: moment().format('YYYY年MM月DD日')
+      nowDate: moment().format('YYYY年MM月DD日'),
+      filterValue: this.toolFilter ? this.toolFilter.Values : ''
     }
   },
   created () {
@@ -304,6 +335,19 @@ export default {
     isFilter () {
       return this.tableColumns.filter(item => !!item.filter).length
     }, /* 计算table是否有过滤行 */
+    filterBar () {
+      if (this.tableColumns.filter(item => !!item.filterBar).length) {
+        return [...this.tableColumns.filter(item => !!item.filterBar), {
+          name: 'query',
+          label: '查询',
+          filterBar: {
+            type: 'button'
+          }
+        }]
+      } else {
+        return []
+      }
+    }, /* 计算表格 */
     operationList () {
       const operationUpdate = this.operation.update ? [{
         label: '编辑', name: 'update', icon: 'edit'
@@ -327,6 +371,9 @@ export default {
     } /* 计算table的工具栏toolbar */
   },
   methods: {
+    changeFormValue (values) {
+      console.log(123123)
+    },
     filterDom () {
       const dom = this.$refs.table.$el.cloneNode(true)
       dom.querySelectorAll('#table thead tr')[1].parentNode.removeChild(dom.querySelectorAll('#table thead tr')[1])
@@ -580,6 +627,10 @@ tr
   &:last-child
     th,td
       border-bottom: 1px solid #ddd
+.filterBar
+  width: 79%
+.filterItem
+  margin-right: 20px  
 .toolbar
   float: left
 .column-filter

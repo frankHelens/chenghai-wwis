@@ -129,3 +129,15 @@ body{
   width: 50%;
   margin-top: 5px;
 }
+
+.el-step__main {
+  width: 90%;
+}
+
+.el-step__title.is-finish{
+  width: 100%;
+}
+
+.tab-style, .datatable{
+  height: 100%;
+}

@@ -10,6 +10,7 @@ import managerRoutes from './manager'
 import datacenterRoutes from './datacenter'
 import installRoutes from './install'
 import storageRoutes from './storage'
+import meterRoutes from './meter'
 import baseRoutes from './base'
 import workRoutes from './work'
 import printRoutes from './print'
@@ -38,7 +39,8 @@ const routes = [
       baseRoutes,
       workRoutes,
       printRoutes,
-      excelRoutes
+      excelRoutes,
+      meterRoutes
     ],
     redirect: '/base/task',
     beforeEnter: requireAuth
