@@ -1,0 +1,283 @@
+<template>
+  <div>
+    <div class="main">
+      <h2 class="title">
+        {{title}}
+      </h2>
+      <datatable class="datatable"
+        v-if="hasRelation"
+        :label="label"
+        :labelName="labelName"
+        :resource="resource"
+        :relation="relation"
+        :columnsObject="columns"
+        :toolbar = "toolbar"
+        :customOperation="customOperation"
+        :tableInitList="tableInitList"
+        :tableFullList="tableFullList"
+        :filterByInit="filterByInit"
+        @customOperationEvent="customOperationEvent"
+      >
+      </datatable>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getMenus } from '../../../auth'
+import { fetchList } from '../../../utils/api'
+import Datatable from '../../../components/Datatable'
+import { getLodop } from '../../../utils/LodopFuncs'
+
+export default {
+  name: 'commitment',
+  components: {
+    Datatable
+  },
+  data () {
+    const menu = getMenus().find(item => item.menuurl === '/install/newInstall/commitment')
+    return {
+      flowDefineId: menu.flowid,
+      resource: 'installorder',
+      title: '打印承诺书',
+      label: '打印承诺书',
+      labelName: 'name',
+      toolbar: {
+        export: true
+      },
+      relation: true,
+      hasRelation: false,
+      customOperation: [{
+        name: 'task',
+        label: '工单详情',
+        icon: 'id-card-o'
+      }, {
+        name: 'printHF',
+        label: '打印承诺书',
+        icon: 'print'
+      }],
+      tableInitList: ['orderCode', 'createTime', 'clientName', 'clientAddress', 'meterDiameter', 'clientContact'],
+      tableFullList: ['orderCode', 'createTime', 'clientName', 'clientAddress', 'meterDiameter', 'clientContact', 'cardType', 'cardNo', 'clientType', 'userCount'],
+      columns: {
+        orderCode: {
+          label: '流水编号',
+          sort: true,
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        flowInstanceId: {
+          label: '工单号',
+          sort: true,
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        meterDiameter: {
+          label: '水表口径',
+          type: 'select',
+          filter: {
+            type: 'select',
+            like: true
+          }
+        },
+        orderStatus: {
+          label: '归档状态',
+          type: 'select'
+        },
+        createTime: {
+          label: '办理时间',
+          type: 'time',
+          filter: {
+            type: 'dateRange'
+          },
+          sort: true
+        },
+        applyTime: {
+          label: '受理日期',
+          type: 'time'
+        },
+        updateTime: {
+          label: '操作时间',
+          type: 'time'
+        },
+        clientName: {
+          label: '客户名称',
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        clientNo: {
+          label: '户号',
+          filter: {
+            type: 'input'
+          }
+        },
+        cardType: {
+          label: '证件名称',
+          type: 'select',
+          filter: {
+            type: 'select'
+          }
+        },
+        cardNo: {
+          label: '证件号码',
+          filter: {
+            type: 'input'
+          }
+        },
+        clientPhone: {
+          label: '客户固话',
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        clientContact: {
+          label: '客户手机',
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        agentContact: {
+          label: '客户手机',
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        clientAddress: {
+          label: '用水地址',
+          width: '200px',
+          filter: {
+            type: 'input',
+            like: true
+          }
+        },
+        clientType: {
+          label: '用水性质',
+          type: 'select',
+          filter: {
+            type: 'select',
+            like: true
+          }
+        },
+        serviceType: {
+          label: '服务项目',
+          type: 'select'
+        },
+        clientOldName: {
+          label: '改名过户原用户名称'
+        },
+        agentName: {
+          label: '申办人'
+        },
+        applyIdcard: {
+          label: '申办人身份证号码'
+        },
+        applyPhone: {
+          label: '申办人联系电话固话'
+        },
+        applyMobile: {
+          label: '申办人手机号码'
+        },
+        buildDate: {
+          label: '安装日期',
+          type: 'time'
+        },
+        meterOuterNum: {
+          label: '水表外码'
+        },
+        meterType: {
+          label: '水表表型'
+        },
+        cfmVerifyRemark: {
+          label: '审核施工完成备注'
+        },
+        builder: {
+          label: '施工员'
+        },
+        meterNearNo: {
+          label: '近表号'
+        },
+        stepDefineId: {
+          label: '流程定义'
+        },
+        userCount: {
+          label: '用水人数',
+          filter: {
+            type: 'input',
+            like: true
+          }
+        }
+      },
+      filterByInit: []
+    }
+  },
+  created () {
+    this.getRelation()
+  },
+  methods: {
+    customOperationEvent (name, data) {
+      if (name === 'task') {
+        this.$router.push('/base/task/' + data.flowInstanceId)
+      } else if (name === 'printHF') {
+        this.printHF(data)
+      }
+    },
+    getRelation () {
+      console.log(this.flowDefineId)
+      fetchList({
+        resource: this.resource + '/relation'
+      })
+      .then((data) => {
+        Object.keys(data).map(key => {
+          console.log(this.columns)
+          this.columns[key].options = data[key]
+        })
+        this.filterByInit = [{
+          name: 'stepDefineId',
+          type: 'equalto',
+          value: data.stepDefineId.find(item => item.flowDefineId === this.flowDefineId && item.label === '打印承诺书').id
+        }]
+        this.hasRelation = true
+      })
+    },
+    printHF (data) {
+      if (data.isBigUser) {
+        let LODOP = getLodop()
+        LODOP.PRINT_INITA(0, 0, 800, 1000, '')
+        LODOP.ADD_PRINT_TEXT(150, 206, 105, 20, data.clientName)
+        LODOP.ADD_PRINT_TEXT(150, 388, 98, 20, data.clientType)
+        LODOP.ADD_PRINT_TEXT(150, 574, 42, 20, data.meterDiameter)
+        LODOP.ADD_PRINT_SETUP_BKIMG("<img src='http://test2.gddxit.com/yonghuchengnuoshu.jpg' />")
+        LODOP.SET_SHOW_MODE('BKIMG_IN_PREVIEW', 1)
+        LODOP.SET_SHOW_MODE('BKIMG_LEFT', 0)
+        LODOP.SET_SHOW_MODE('BKIMG_TOP', 0)
+        LODOP.SET_SHOW_MODE('BKIMG_WIDTH', '700px')
+        // LODOP.SET_SHOW_MODE('BKIMG_HEIGHT', '1000px')
+        // LODOP.PRINT_DESIGN()
+        LODOP.PREVIEW()
+      } else {
+        let LODOP = getLodop()
+        LODOP.PRINT_INITA(0, 0, 800, 1000, '')
+        // LODOP.ADD_PRINT_TEXT(387, 311, 41, 20, data.clientType)
+        LODOP.ADD_PRINT_TEXT(265, 373, 32, 20, 'xx')
+        LODOP.ADD_PRINT_TEXT(155, 487, 46, 20, data.meterDiameter)
+        LODOP.ADD_PRINT_SETUP_BKIMG("<img src='http://test2.gddxit.com/chengnuoshu.jpg' />")
+        LODOP.SET_SHOW_MODE('BKIMG_IN_PREVIEW', 1)
+        LODOP.SET_SHOW_MODE('BKIMG_LEFT', '160px')
+        LODOP.SET_SHOW_MODE('BKIMG_TOP', 0)
+        LODOP.SET_SHOW_MODE('BKIMG_WIDTH', '480px')
+        // LODOP.SET_SHOW_MODE('BKIMG_HEIGHT', '1000px')
+        // LODOP.PRINT_DESIGN()
+        LODOP.PREVIEW()
+      }
+    }
+  }
+}
+</script>

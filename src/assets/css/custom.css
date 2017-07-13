@@ -1,0 +1,131 @@
+html{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #fff;
+}
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #fff;
+}
+.wrapper{
+  height: 100%;
+}
+.content{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 25px 20px 10px;
+}
+.main{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.content .title{
+  padding: 0;
+  font-size: 28px;
+  display: block;
+  color: #666;
+  margin: 0 0 15px;
+  font-weight: 300;
+}
+.main-tabs{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.main-tabs .el-tabs__content{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: inherit; 
+}
+.main-tabs-pane{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.datatable{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.page-logo a{
+  color: #eee;
+  line-height: 46px;
+  font-size: 18px;
+  text-decoration: none;
+}
+.el-input--xlarge .el-form-item__label{
+  font-size: 18px;
+}
+.el-input--xlarge .el-input__inner{
+  height: 50px;
+}
+.el-popover[x-placement^="top"] .popper__arrow{
+  left: 50%!important;
+}
+.el-tree{
+  height: 208px;
+  overflow: auto;
+  border-radius: 4px;
+}
+.el-progress-bar__innerText{
+  display: none;
+}
+.el-upload{
+  width: 70px;
+}
+/*.el-upload-list__item-thumbnail{
+  width: 50% !important
+} */
+.el-form-item{
+  margin-bottom: 10px;
+}
+/*临时调整错误显示(默认下方改为在右方)*/
+.el-form-item__error {
+  /*错误提示样式*/
+  position: inherit;
+}
+/*弹出框样式*/
+.el-dialog, .el-dialog__header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.el-dialog--tiny {
+  border-radius: 10px;
+}
+.el-dialog__header {
+  padding: 10px 20px 10px;
+  *padding: 9px 18px 9px;
+  _padding: 9px 18px 9px;
+  background-color: #03a9f4;
+}
+.el-dialog__header .el-dialog__title {
+  color: #fff;
+}
+.el-dialog__header .el-dialog__close:hover {
+  color: #FFF;
+}
+.el-dialog__body {
+  color: #777777;
+  font-size: 17px;
+}
+.dialog-title {
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+.dialog-content {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.dialog-content li {
+  width: 50%;
+  margin-top: 5px;
+}
